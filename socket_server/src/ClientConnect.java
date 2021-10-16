@@ -5,7 +5,7 @@ import java.net.Socket;
 public class ClientConnect {
     public static void main(String[] args) {
         Socket sock;
-        String machineServer = "127.0.0.1";
+        String machineServer = "10.5.0.6";
         int port = 5555;
 
         try {

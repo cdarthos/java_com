@@ -5,7 +5,7 @@ import java.net.Socket;
 public class ClientConnect {
     public static void main(String[] args) {
         Socket sock;
-        String machineServer = "10.5.0.6";
+        String machineServer = "server";
         int port = 5555;
 
         try {
@@ -20,7 +20,7 @@ public class ClientConnect {
             System.out.println(recu);
         }
         catch (IOException ex) {
-            System.out.println(ex);
+            System.out.println(ex.getMessage());
         }
     }
 }

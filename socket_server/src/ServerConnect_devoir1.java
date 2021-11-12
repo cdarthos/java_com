@@ -13,53 +13,55 @@ public class ServerConnect_devoir1 {
 
             System.out.println("attente connexion");
             Socket connexion1 = srv1.accept();
-            //Socket connexion2 = srv1.accept();
+            System.out.println("client 1 connecté");
 
-            OutputStream os1 = connexion1.getOutputStream();
-            InputStream is1 = connexion1.getInputStream();
+            Socket connexion2 = srv1.accept();
+            System.out.println("client 2 connecté");
 
+//client 1
+            BufferedWriter out1 = BW(connexion1);
+            BufferedReader in1 = BR(connexion1);
 
-            BufferedWriter out1 = new BufferedWriter(new OutputStreamWriter(os1));
+            send_message(out1, "connection serveur : OK");
 
+            String recu1 = receive_message(in1);
+            System.out.println(recu1);
 
+//client 2
+            BufferedWriter out2 = BW(connexion2);
+            BufferedReader in2 = BR(connexion2);
 
+            send_message(out2, "connection serveur : OK");
 
-            out1.write("client connecté au serveur");
-            out1.newLine();
-            out1.flush();
-            //out1.close();
-            System.out.println("flush");
-            //connexion1.shutdownOutput();
-            //Socket.shutdownInput();
-
-
-            BufferedReader in1 = new BufferedReader(new InputStreamReader(is1));
-            String recu = in1.readLine();
-            System.out.println(recu);
-
-            connexion1.close();
-
-//
-
-
-
-            /*
-            OutputStream os1 = connexion1.getOutputStream();
-            OutputStream os2 = connexion2.getOutputStream();
-            BufferedWriter out1 = new BufferedWriter(new OutputStreamWriter(os1));
-            BufferedWriter out2 = new BufferedWriter(new OutputStreamWriter(os2));
-
-            out1.write("server2client1");
-            out2.write("server2client2");
-            out1.flush();
-            out2.flush();
-            */
+            String recu2 = receive_message(in2);
+            System.out.println(recu2);
 
             connexion1.close();
-            //connexion2.close();
+            connexion2.close();
         }
         catch (IOException ex) {
             System.out.println(ex);
         }
     }
+
+    public static void send_message(BufferedWriter out, String message) throws IOException {
+        out.write(message);
+        out.newLine();
+        out.flush();
+    }
+    public static String receive_message(BufferedReader in) throws IOException {
+        String receive_message = in.readLine();
+        return receive_message;
+    }
+    public static BufferedWriter BW(Socket sock) throws IOException {
+        OutputStream os1 = sock.getOutputStream();
+        BufferedWriter out1 = new BufferedWriter(new OutputStreamWriter(os1));
+        return out1;
+    }
+    public static BufferedReader BR(Socket sock) throws IOException {
+        InputStream is1 = sock.getInputStream();
+        BufferedReader in1 = new BufferedReader(new InputStreamReader(is1));
+        return in1;
+    }
+
 }
